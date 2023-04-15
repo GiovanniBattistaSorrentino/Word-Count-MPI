@@ -405,7 +405,6 @@ Per la creazione del cluster sono state utilizzate 6 istanze di nodi e2-standard
 | 23          | 19.451942 | 2.05    |
 | 24          | 18.689850 | 2.14    |
 
-<img src="img/chart_scal_forte30.png" align="center">
 
 <h3>Taglia input: 1.4GB</h3>
 
@@ -437,7 +436,6 @@ Per la creazione del cluster sono state utilizzate 6 istanze di nodi e2-standard
 | 23       | 21.861920 | 3.21    |
 | 24       | 21.063792 | 3.34    |
 
-<img src="img/chart_scal_forte60.png" align="center">
 
 ## 6.2 Scalabilità debole
 
@@ -471,7 +469,6 @@ Per la creazione del cluster sono state utilizzate 6 istanze di nodi e2-standard
 | 24       | 544MB | 19.071691 |
 
 
-<img src="img/chart_scal_deb.png" align="center">
 
 ## 6.3 Analisi dei risultati
 Dai risultati raccolti è possibile notare che l'algoritmo trae vantaggio della parallelizzazione, tuttavia la crescita dello speedup è limitata da diverse criticità, prima delle quali l'ordinamento delle parole che si sarebbe potuto eseguire, in parte o completamente, in parallelo. Un'ulteriore criticità che ha compromesso la crescita dello speedup è la scelta implementativa di inviare ai nodi worker la lista di sezioni di file da computare, dato che la lunghezza di questa lista cresce al crescere del numero di file presenti nella cartella, questa potrebbe essere molto lunga facendo costare molto la comunicazione in termini prestazionali. Per evitare questa criticità sarebbe bastato inviare solo un riferimento indicante dove iniziare il conteggio delle parole e un riferimento indicate dove terminare il conteggio delle parole, computando i file in ordine alfabetico; in questo modo non sarebbe stata necessaria la esecuzione della <strong>MPI_Scatter</strong> inviante il numero di task successivamente ricevuti tramite la <strong>MPI_Scatterv</strong>. Nonostante queste criticità l'analisi della scalabilità debole non ha mostrato importati incrementi dei tempi di esecuzione al crescere del numero di processi in esecuzione.
